@@ -1,0 +1,19 @@
+Minor fixes for the MATE desktop environment
+============================================
+
+Fix mailto handling with mutt
+-----------------------------
+mutt's mailto URL handler works via
+/usr/lib/mutt/mailto-mutt >
+/etc/alternatives/x-terminal-emulator >
+/usr/bin/mate-terminal.
+
+The latter only uses the first command after -e and discards the arguments.
+Other terminal emulators either handle -e correctly or come with a wrapper
+to fix it.
+So add the necessary wrapper to mate-terminal, swapping -e for -x.
+
+Fix power button "Ask me"
+-------------------------
+The ACPI helper scripts are not aware of mate-power-manager.
+So install a symlink to it called /usr/bin/gnome-power-manager.

@@ -1,3 +1,4 @@
+/* (c) SZABO Gergely <szg@subogero.com> WTFPL 2.0 */
 #include <unistd.h>
 #include <string.h>
 int main(int argc, char *argv[])
