@@ -1,11 +1,22 @@
-all: mate-terminal-wrapper
+# (c) SZABO Gergely <szg@subogero.com> WTFPL 2.0
+TERMWRAP := mate-terminal-wrapper
+BINDIR := /usr/bin
+ALTXTERM := /etc/alternatives/x-terminal-emulator
 
-install:
-	cp -f mate-terminal-wrapper /usr/bin
-	mv /etc/alternatives/x-terminal-emulator /etc/alternatives/x-terminal-emulator~
-	ln -s -T /usr/bin/mate-terminal-wrapper /etc/alternatives/x-terminal-emulator
+all: $(TERMWRAP)
+
+install: all
+	cp -f $(TERMWRAP) $(BINDIR)
+	if [ ! -f $(ALTXTERM)~ ]; then \
+	  mv $(ALTXTERM) $(ALTXTERM)~; \
+	  ln -s -T $(BINDIR)/$(TERMWRAP) $(ALTXTERM); \
+	fi
+	ln -s -T $(BINDIR)/mate-power-manager $(BINDIR)/gnome-power-manager
 
 uninstall:
-	rm -f /usr/bin/mate-terminal-wrapper 
-	rm /etc/alternatives/x-terminal-emulator
-	mv /etc/alternatives/x-terminal-emulator~ /etc/alternatives/x-terminal-emulator
+	rm -f $(BINDIR)/$(TERMWRAP) 
+	[ -f $(ALTXTERM)~ ]; then \
+	  rm $(ALTXTERM); \
+	  mv $(ALTXTERM)~ $(ALTXTERM); \
+	fi
+	rm $(BINDIR)/gnome-power-manager
